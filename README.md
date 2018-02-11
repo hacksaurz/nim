@@ -10,4 +10,10 @@
 ### run
 `python app.py`
 
+### tools
+[pip][pip]
+[virtual environment wrapper][venv]
+
 [nim]: <https://en.wikipedia.org/wiki/Nim>
+[venv]: <http://virtualenvwrapper.readthedocs.io/en/latest/install.html>
+[pip]: <https://pip.pypa.io/en/stable/installing/>
