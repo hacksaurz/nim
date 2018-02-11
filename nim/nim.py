@@ -172,8 +172,8 @@ class Nim:
         """
         if self.min_stones_per_pile > self.max_stones_per_pile:
             raise NimException(
-                "Can't generate a game because min_stones_per_pile if larger "
-                "then max_stones_per_pile: {} > {}"
+                "Can't generate a game because min_stones_per_pile is larger "
+                "than max_stones_per_pile: {} > {}"
                 .format(self.min_stones_per_pile, self.max_stones_per_pile)
             )
         return [randint(self.min_stones_per_pile, self.max_stones_per_pile)
