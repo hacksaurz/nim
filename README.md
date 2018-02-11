@@ -12,6 +12,7 @@
 
 ### tools
 [pip][pip]
+
 [virtual environment wrapper][venv]
 
 [nim]: <https://en.wikipedia.org/wiki/Nim>
