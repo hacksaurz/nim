@@ -24,7 +24,6 @@ def index():
     )
     return render_template(
         'index.html',
-        state=session['state']
     )
 
 
@@ -35,6 +34,18 @@ def update_game_state():
     # app.game.update(state, player_move)
     bot_move = app.game.garbage.move(state)
     app.game.update(state, bot_move)
+    session['state'] = state
+    return jsonify({'state': state})
+
+
+@app.route('/new')
+def newgame():
+    json = loads('{"min": 3, "max": 12, "piles": 3}')
+    state = app.game.new_game(
+        min=json['min'],
+        max=json['max'],
+        piles=json['piles'],
+    )
     session['state'] = state
     return jsonify({'state': state})
 

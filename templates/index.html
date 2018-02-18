@@ -2,10 +2,21 @@
 <html>
   <head>
     <title>Play Nim</title>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
   </head>
   <body>
 
-      <h1>So it begins...</h1>
-      {{ state }}
+    <h1>So it begins...</h1>
+
+    <div id="pile0"></div>
+    <div id="pile1"></div>
+    <div id="pile2"></div>
+    <div id="pile3"></div>
+    <div id="pile4"></div>
+
+    <button onclick="updateGameState()">Make Move</button>
+    <button onclick="newGame()">New Game</button>
+
+    <script src="/static/game_operations.js" charset="utf-8"></script>
   </body>
 </html>
