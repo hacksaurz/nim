@@ -2,10 +2,28 @@
 <html>
   <head>
     <title>Play Nim</title>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
   </head>
   <body>
 
-      <h1>So it begins...</h1>
-      {{ state }}
+    <h1>So it begins...</h1>
+    {{ state }}
+
+    <div id="pile1"></div>
+    <div id="pile2"></div>
+    <div id="pile3"></div>
+
+    <button onclick="update()">Click me</button>
+
+    <script type="text/javascript">
+      function update() {
+        $.getJSON( "/update", function( json ) {
+          $( "#pile1" ).html( json.state[0] );
+          $( "#pile2" ).html( json.state[1] );
+          $( "#pile3" ).html( json.state[2] );
+          console.log( "JSON Data: " + json.state );
+        });
+      };
+    </script>
   </body>
 </html>
