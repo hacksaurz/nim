@@ -7,23 +7,16 @@
   <body>
 
     <h1>So it begins...</h1>
-    {{ state }}
 
+    <div id="pile0"></div>
     <div id="pile1"></div>
     <div id="pile2"></div>
     <div id="pile3"></div>
+    <div id="pile4"></div>
 
-    <button onclick="update()">Click me</button>
+    <button onclick="update()">Make Move</button>
+    <button onclick="newGame()">New Game</button>
 
-    <script type="text/javascript">
-      function update() {
-        $.getJSON( "/update", function( json ) {
-          $( "#pile1" ).html( json.state[0] );
-          $( "#pile2" ).html( json.state[1] );
-          $( "#pile3" ).html( json.state[2] );
-          console.log( "JSON Data: " + json.state );
-        });
-      };
-    </script>
+    <script src="/static/game_operations.js" charset="utf-8"></script>
   </body>
 </html>
