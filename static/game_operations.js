@@ -1,23 +1,18 @@
+var maxPiles = 5;
+
 $("document").ready(newGame);
 
-function update() {
-  $.getJSON( "/update", function( json ) {
-    $( "#pile0" ).html( json.state[0] );
-    $( "#pile1" ).html( json.state[1] );
-    $( "#pile2" ).html( json.state[2] );
-    $( "#pile3" ).html( json.state[3] );
-    $( "#pile4" ).html( json.state[4] );
-    console.log( "JSON Data: " + json.state );
-  });
+function newGame() {
+  $.getJSON( "/new", updatePage);
 };
 
-function newGame() {
-  $.getJSON( "/new", function( json ) {
-    $( "#pile0" ).html( json.state[0] );
-    $( "#pile1" ).html( json.state[1] );
-    $( "#pile2" ).html( json.state[2] );
-    $( "#pile3" ).html( json.state[3] );
-    $( "#pile4" ).html( json.state[4] );
+function updateGameState() {
+  $.getJSON( "/update", updatePage);
+};
+
+function updatePage( json ) {
+    for (i = 0; i <= maxPiles; i++) {
+        $( "#pile" + i ).html( json.state[i] );
+    }
     console.log( "JSON Data: " + json.state );
-  });
 };
