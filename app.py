@@ -32,7 +32,7 @@ def update_game_state():
     state = session['state']
     # player_move = loads('{"pile": 0, "stones": 1}')
     # app.game.update(state, player_move)
-    bot_move = app.game.garbage.move(state)
+    bot_move = app.game.chaos.move(state)
     app.game.update(state, bot_move)
     session['state'] = state
     return jsonify({'state': state})

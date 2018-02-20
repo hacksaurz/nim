@@ -1,29 +1,62 @@
-from random import randint
+from operator import itemgetter
+
+from random import choice, randint
 
 from exceptions import NimException
 
 
 class Bot():
+    subclasses = []
+
+    def __init_subclass__(cls, **kwargs):
+        super().__init_subclass__(**kwargs)
+        Bot.subclasses.append(cls)
+
+    def nonzero_pile_indexes(self, state):
+        return [i for i, nb_stones in enumerate(state) if nb_stones >= 1]
+
     def move(self, state):
-        raise NotImplementedError
+        if not self.nonzero_pile_indexes(state):
+            raise NimException(f'No valid moves on state: {state}')
+        return self.move_strategy(state)
 
 
 class Random(Bot):
     """
-    Cory's bot :)
+    Bot that always chooses a random number of stones from a random pile
     """
-    pass
+    def move_strategy(self, state):
+        pile_index = choice(self.nonzero_pile_indexes(state))
+        stones = randint(1, state[pile_index])
+        return {'pile': pile_index, 'stones': stones}
 
 
 class Perfect(Bot):
     """
     Hunter's bot :)
+    Temporary strategy until implemented
     """
-    pass
+    def move_strategy(self, state):
+        pile_index = choice(self.nonzero_pile_indexes(state))
+        return {'pile': pile_index, 'stones': 1}
 
 
 class AI(Bot):
-    pass
+    """
+    Temporary strategy until implemented
+    """
+    def move_strategy(self, state):
+        pile_index = choice(self.nonzero_pile_indexes(state))
+        return {'pile': pile_index, 'stones': 1}
+
+
+class Greedy(Bot):
+    """
+    Bot that always takes as many stones as possible
+    """
+    def move_strategy(self, state):
+        pile_index, stones = max(enumerate(state), key=itemgetter(1))
+        return {'pile': pile_index, 'stones': stones}
 
 
 class Garbage(Bot):
@@ -31,11 +64,22 @@ class Garbage(Bot):
     I always take one stone from the first available pile!
     Derp! :D
     """
-    def move(self, state):
-        for i, pile in enumerate(state):
-            if pile >= 1:
-                return {'pile': i, 'stones': 1}
-        raise NimException('No stones to take')
+    def move_strategy(self, state):
+        pile_index = self.nonzero_pile_indexes(state)[0]
+        return {'pile': pile_index, 'stones': 1}
+
+
+class Chaos(Bot):
+    """
+    Bot that chooses a random other bot strategy to make a move
+    """
+    def move_strategy(self, state):
+        """
+        Takes the state of the game and returns the result of another bot's move
+        """
+        not_chaos_bot = [bot for bot in Bot.subclasses if bot != Chaos]
+        chosen_bot = choice(not_chaos_bot)()
+        return chosen_bot.move_strategy(state)
 
 
 class Nim():
@@ -44,6 +88,8 @@ class Nim():
         self.random = Random()
         self.ai = AI()
         self.garbage = Garbage()
+        self.greedy = Greedy()
+        self.chaos = Chaos()
 
     def new_game(self, min, max, piles):
         return [randint(min, max) for _ in range(piles)]
