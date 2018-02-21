@@ -1,0 +1,24 @@
+#!/usr/bin/env python
+from setuptools import find_packages, setup
+
+setup(
+    name='nim',
+    version='1.0',
+    description='Web app for playing Nim',
+    author='Hacksaurz',
+    #author_email='drunk@yourwedding.com',
+    packages=find_packages(exclude=['*.tests']),
+    install_requires=[
+        'click==6.7',
+        'Flask==0.12.2',
+        'itsdangerous==0.24',
+        'Jinja2==2.10',
+        'MarkupSafe==1.0',
+        'pluggy==0.6.0',
+        'py==1.5.2',
+        'six==1.11.0',
+        'tox==2.9.1',
+        'virtualenv==15.1.0',
+        'Werkzeug==0.14.1',
+    ],
+)

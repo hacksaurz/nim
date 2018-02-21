@@ -2,7 +2,7 @@ from operator import itemgetter
 
 from random import choice, randint
 
-from exceptions import NimException
+from nim.exceptions import NimException
 
 
 class Bot():
