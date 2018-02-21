@@ -1,2 +1,6 @@
 *.pyc
 .venv
+.tox/
+*.eggs
+*.egg-info
+.pytest_cache/
