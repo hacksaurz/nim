@@ -5,18 +5,32 @@
     <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
   </head>
   <body>
+  <center>
 
     <h1>So it begins...</h1>
 
-    <div id="pile0"></div>
-    <div id="pile1"></div>
-    <div id="pile2"></div>
-    <div id="pile3"></div>
-    <div id="pile4"></div>
+        <h3>
+        Enter Minimum stones per pile <br><input name="desired_min" type="text" size="5"> <br><br>
+        Enter Maximum stones per pile <br><input name="desired_max" type="text" size="5" > <br><br>
+        Enter Number of piles <br><input name="desired_piles" type="text" size="5"> <br><br>
+        </h3>
+
+    <table>
+        <tr>
+        <td><div id="pile0"></div></td>
+        <td><div id="pile1"></div></td>
+        <td><div id="pile2"></div></td>
+        <td><div id="pile3"></div></td>
+        <td><div id="pile4"></div></td>
+        </tr>
+    </table>
+
+    <br><br>
 
     <button onclick="updateGameState()">Make Move</button>
     <button onclick="newGame()">New Game</button>
 
     <script src="/static/game_operations.js" charset="utf-8"></script>
+  </center>
   </body>
 </html>
