@@ -4,6 +4,8 @@ from random import choice, randint
 
 from nim.exceptions import NimException
 
+NUM_LIMIT = 50
+
 
 class Bot():
     subclasses = []
@@ -92,6 +94,13 @@ class Nim():
         self.chaos = Chaos()
 
     def new_game(self, min, max, piles):
+        if not all(isinstance(x, int) and 1 <= x <= NUM_LIMIT
+                   for x in (min, max, piles)):
+            raise NimException(
+                f"Please use integers between 1 and {NUM_LIMIT}")
+        elif min > max:
+            raise NimException(
+                f"Min({min}) cant be greater than Max({max})")
         return [randint(min, max) for _ in range(piles)]
 
     def update(self, state, move):

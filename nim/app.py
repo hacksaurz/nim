@@ -3,10 +3,12 @@ from flask import (
     render_template,
     session,
     Flask,
+    request,
 )
-from json import loads
 
-from game import Nim
+
+from nim.exceptions import NimException
+from nim.game import Nim
 
 
 app = Flask(__name__)
@@ -34,12 +36,15 @@ def update_game_state():
 
 @app.route('/new', methods=['GET', 'POST'])
 def new_game():
-    json = loads('{"min": 3, "max": 12, "piles": 3}')
-    state = app.game.new_game(
-        min=json['min'],
-        max=json['max'],
-        piles=json['piles'],
-    )
+    game_request = request.get_json()
+    try:
+        state = app.game.new_game(
+            min=game_request['min'],
+            max=game_request['max'],
+            piles=game_request['piles'],
+        )
+    except NimException as e:
+        return jsonify({'error': e.args})
     session['state'] = state
     return jsonify({'state': state})
 
