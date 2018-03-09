@@ -1,6 +1,6 @@
 [Learn about Nim][nim]
 
-[![Build Status](https://travis-ci.org/hacksaurz/nim.svg?branch=master)](https://travis-ci.org/hacksaurz/nim)]
+[![Build Status](https://travis-ci.org/hacksaurz/nim.svg?branch=master)](https://travis-ci.org/hacksaurz/nim)
 
 # development
 
