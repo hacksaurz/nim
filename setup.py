@@ -7,6 +7,7 @@ setup(
     description='Web app for playing Nim',
     author='Hacksaurz',
     #author_email='drunk@yourwedding.com',
+    url='https://github.com/hacksaurz/nim',
     packages=find_packages(exclude=['*.tests']),
     install_requires=[
         'click==6.7',
