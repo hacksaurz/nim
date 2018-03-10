@@ -12,3 +12,4 @@ def game_object():
 def test_temp(game_object):
     with pytest.raises(NimException, message="Expecting NimException"):
         game_object.garbage.move([0, 0, 0])
+    game_object.garbage.move([0, 0, 0])
