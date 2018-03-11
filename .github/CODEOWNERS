@@ -1,0 +1,6 @@
+# Each line is a file pattern followed by one or more owners.
+
+# Code owners are automatically added as reviewers on pull requests
+# that contain changes to files they own
+
+/ @BlueSkies7 @daveLambe @dodecaphonix @purplehax @romainrichard
