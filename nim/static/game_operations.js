@@ -13,18 +13,44 @@ function newGame() {
     }),
     contentType: "application/json; charset=utf-8",
     dataType : 'json',
-    success: updatePage
+    success: function( json ) { updatePage( json.state ) }
   });
 };
 
 function updateGameState() {
-  $.getJSON( "/update", updatePage);
+  $.ajax({
+    type:"POST",
+    url: "/update",
+    data: JSON.stringify({
+      "pile": parseInt($('#pile').val()) - 1,
+      "stones": parseInt($('#stones').val()),
+    }),
+    contentType: "application/json; charset=utf-8",
+    dataType : 'json',
+    success: applyMoves
+  });
 };
 
-function updatePage( json ) {
+function applyMoves( json ) {
+  if ( json.playerState ) {
+    updatePage( json.playerState )
+  }
+
+  if ( json.botState && !$('#delay').is(":checked") ) {
+    setTimeout(function() { updatePage( json.botState ) }, 100);
+  }
+
+  else if ( json.botState ) {
+    setTimeout(function() { updatePage( json.botState ) }, 1000);
+  }
+
+  console.log( "JSON Data: " + json );
+};
+
+function updatePage( state ) {
     $( "#piles" ).empty();
-    for (i = 0; i < json.state.length; i++) {
-        $( "#piles" ).append( '<div style="float: left;"><h1>' + json.state[i] + '</h1></div>' );
+    for (i = 0; i < state.length; i++) {
+        $( "#piles" ).append( '<div style="float: left;"><h1>' + state[i] + '</h1></div>' );
     }
-    console.log( "JSON Data: " + json.state );
+    console.log( "State: " + state );
 };

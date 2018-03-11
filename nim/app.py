@@ -21,7 +21,7 @@ def index():
     )
 
 
-@app.route('/update')
+@app.route('/update', methods=['GET', 'POST'])
 def update_game_state():
     state = session['state']
     # player_move = loads('{"pile": 0, "stones": 1}')
@@ -29,7 +29,7 @@ def update_game_state():
     bot_move = app.game.chaos.move(state)
     app.game.update(state, bot_move)
     session['state'] = state
-    return jsonify({'state': state})
+    return jsonify({'playerState': None, 'botState': state})
 
 
 @app.route('/new', methods=['GET', 'POST'])
