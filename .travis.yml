@@ -2,7 +2,7 @@ sudo: false
 language: python
 python:
   - "3.6"
-  - "3.7"
+  - "3.7-dev"
   - "pypy3"
 install: pip install codecov tox-travis
 script: tox
