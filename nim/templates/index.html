@@ -2,35 +2,54 @@
 <html>
   <head>
     <title>Play Nim</title>
+
     <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+
+    <script>
+      window.jQuery || document.write(
+        '<script src="{{ url_for('static', filename='jquery.js') }}">\x3C/script>'
+      )
+    </script>
+
+    <style>
+      body {
+        background-color: #EEEEEE;
+      }
+      div {
+        color: #555555;
+        padding: 10px 10px 10px 10px;
+      }
+    </style>
   </head>
   <body>
-  <center>
 
-    <h1>So it begins...</h1>
+    <div>
+      <h1>So it begins...</h1>
+    </div>
 
-        <h3>
-        Enter Minimum stones per pile <br><input name="desired_min" type="text" size="5"> <br><br>
-        Enter Maximum stones per pile <br><input name="desired_max" type="text" size="5" > <br><br>
-        Enter Number of piles <br><input name="desired_piles" type="text" size="5"> <br><br>
-        </h3>
+    <div id=piles></div>
 
-    <table>
-        <tr>
-        <td><div id="pile0"></div></td>
-        <td><div id="pile1"></div></td>
-        <td><div id="pile2"></div></td>
-        <td><div id="pile3"></div></td>
-        <td><div id="pile4"></div></td>
-        </tr>
-    </table>
 
-    <br><br>
+    <div style="clear: both;">
+      <button onclick="updateGameState()">Make Move</button>
+      <button onclick="newGame()">New Game</button>
+    </div>
 
-    <button onclick="updateGameState()">Make Move</button>
-    <button onclick="newGame()">New Game</button>
+    <div>
+      <input type="number" id="numPiles" value="3" min="1">
+      total piles
+    </div>
+
+    <div>
+      <input type="number" id="minPerPile" value="4" min="1">
+      minimum stones per pile
+    </div>
+
+    <div>
+      <input type="number" id="maxPerPile" value="12" min="1">
+      maximum stones per pile
+    </div>
 
     <script src="/static/game_operations.js" charset="utf-8"></script>
-  </center>
   </body>
 </html>

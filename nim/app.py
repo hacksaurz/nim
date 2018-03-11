@@ -16,12 +16,6 @@ app.game = Nim()
 
 @app.route('/')
 def index():
-    json = loads('{"min": 3, "max": 12, "piles": 3}')
-    session['state'] = app.game.new_game(
-        min=json['min'],
-        max=json['max'],
-        piles=json['piles'],
-    )
     return render_template(
         'index.html',
     )
@@ -38,8 +32,8 @@ def update_game_state():
     return jsonify({'state': state})
 
 
-@app.route('/new')
-def newgame():
+@app.route('/new', methods=['GET', 'POST'])
+def new_game():
     json = loads('{"min": 3, "max": 12, "piles": 3}')
     state = app.game.new_game(
         min=json['min'],
