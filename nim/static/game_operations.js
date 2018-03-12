@@ -1,4 +1,7 @@
-var maxPiles = 5;
+var pileLeft = '<div style="float: left;"><h1>';
+var pileRight = '</h1></div>';
+var contTypeJSON = "application/json; charset=utf-8";
+
 
 $("document").ready(newGame);
 
@@ -11,7 +14,7 @@ function newGame() {
       "max": parseInt($('#maxPerPile').val()),
       "piles": parseInt($('#numPiles').val())
     }),
-    contentType: "application/json; charset=utf-8",
+    contentType: contTypeJSON,
     dataType : 'json',
     success: updatePage
   });
@@ -25,7 +28,7 @@ function updateGameState() {
       "pile": parseInt($('#pile').val()) - 1,
       "stones": parseInt($('#stones').val()),
     }),
-    contentType: "application/json; charset=utf-8",
+    contentType: contTypeJSON,
     dataType : 'json',
     success: updatePage
   });
@@ -34,7 +37,7 @@ function updateGameState() {
 function updatePage( json ) {
     $( "#piles" ).empty();
     for (i = 0; i < json.state.length; i++) {
-        $( "#piles" ).append( '<div style="float: left;"><h1>' + json.state[i] + '</h1></div>' );
+        $( "#piles" ).append( pileLeft + json.state[i] + pileRight );
     }
     console.log( "JSON Data: " + json.state );
 };
