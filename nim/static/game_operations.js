@@ -13,7 +13,7 @@ function newGame() {
     }),
     contentType: "application/json; charset=utf-8",
     dataType : 'json',
-    success: function( json ) { updatePage( json.state ) }
+    success: updatePage
   });
 };
 
@@ -27,30 +27,14 @@ function updateGameState() {
     }),
     contentType: "application/json; charset=utf-8",
     dataType : 'json',
-    success: applyMoves
+    success: updatePage
   });
 };
 
-function applyMoves( json ) {
-  if ( json.playerState ) {
-    updatePage( json.playerState )
-  }
-
-  if ( json.botState && !$('#delay').is(":checked") ) {
-    setTimeout(function() { updatePage( json.botState ) }, 100);
-  }
-
-  else if ( json.botState ) {
-    setTimeout(function() { updatePage( json.botState ) }, 1000);
-  }
-
-  console.log( "JSON Data: " + json );
-};
-
-function updatePage( state ) {
+function updatePage( json ) {
     $( "#piles" ).empty();
-    for (i = 0; i < state.length; i++) {
-        $( "#piles" ).append( '<div style="float: left;"><h1>' + state[i] + '</h1></div>' );
+    for (i = 0; i < json.state.length; i++) {
+        $( "#piles" ).append( '<div style="float: left;"><h1>' + json.state[i] + '</h1></div>' );
     }
-    console.log( "State: " + state );
+    console.log( "JSON Data: " + json.state );
 };

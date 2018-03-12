@@ -29,7 +29,7 @@ def update_game_state():
     bot_move = app.game.chaos.move(state)
     app.game.update(state, bot_move)
     session['state'] = state
-    return jsonify({'playerState': None, 'botState': state})
+    return jsonify({'state': state})
 
 
 @app.route('/new', methods=['GET', 'POST'])
