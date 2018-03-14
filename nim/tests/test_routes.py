@@ -1,103 +1,110 @@
+import json
 from nim.app import app
 import pytest
-import json
 
 
 @pytest.fixture
-def test_app():
+def client_app():
     return app.test_client()
 
 
-def test_index(test_app):
-    response = test_app.get('/', content_type='html/text')
+def assert_new_game_success(passed_client, req):
+    """
+    Asserts post to /new is 200
+    & state is not empty
+    :param passed_client: test_client
+    :param req: json to post
+    :return: bool
+    """
+    response = passed_client.post(
+        '/new',
+        content_type='application/json',
+        data=req
+    )
+    assert response.status_code == 200 and not len(json.loads(response.data)['state']) == 0
+
+
+def assert_new_game_failed(passed_client, req):
+    """
+    Asserts post tp /new gets error code 400
+     & the string 'error' exists in the response
+    :param passed_client: test_client
+    :param req: json to post
+    :return: bool
+    """
+    response = passed_client.post(
+        '/new',
+        content_type='application/json',
+        data=req
+    )
+    assert response.status_code == 400 and b'error' in response.data
+
+
+def test_index(client_app):
+    response = client_app.get('/', content_type='html/text')
     assert response.status_code == 200
 
 
-def test_new_success(test_app):
-    new_game_response = test_app.post(
-        '/new',
-        data='{"min": 10, "max": 10, "piles": 4}',
-        content_type='application/json'
-    )
-    expected_json = {"state": [10, 10, 10, 10]}
-    assert json.loads(new_game_response.data) == expected_json
+def test_new_success(client_app):
+    assert_new_game_success(client_app,
+                            json.dumps({'min': 5, 'max': 15, 'piles': 4}))
 
 
-def test_new_max_limit_fail(test_app):
-    new_game_response = test_app.post(
-        '/new',
-        data='{"min": 10, "max": 51, "piles": 4}',
-        content_type='application/json'
-    )
-    expected_json = {"error": ["Please use integers between 1 and 50"]}
-    assert json.loads(new_game_response.data) == expected_json
+def test_new_omit_min_success(client_app):
+    assert_new_game_success(client_app,
+                            json.dumps({'max': 15, 'piles': 4}))
 
 
-def test_new_piles_limit_fail(test_app):
-    new_game_response = test_app.post(
-        '/new',
-        data='{"min": 10, "max": 10, "piles": 51}',
-        content_type='application/json'
-    )
-    expected_json = {"error": ["Please use integers between 1 and 50"]}
-    assert json.loads(new_game_response.data) == expected_json
+def test_new_omit_max_success(client_app):
+    assert_new_game_success(client_app,
+                            json.dumps({'min': 5, 'piles': 4}))
 
 
-def test_new_all_limit_fail(test_app):
-    new_game_response = test_app.post(
-        '/new',
-        data='{"min": 51, "max": 51, "piles": 51}',
-        content_type='application/json'
-    )
-    expected_json = {"error": ["Please use integers between 1 and 50"]}
-    assert json.loads(new_game_response.data) == expected_json
+def test_new_omit_piles_success(client_app):
+    assert_new_game_success(client_app,
+                            json.dumps({'min': 5, 'max': 15}))
 
 
-def test_new_pile_zero_fail(test_app):
-    new_game_response = test_app.post(
-        '/new',
-        data='{"min": 10, "max": 20, "piles": 0}',
-        content_type='application/json'
-    )
-    expected_json = {"error": ["Please use integers between 1 and 50"]}
-    assert json.loads(new_game_response.data) == expected_json
+def test_new_omit_all_success(client_app):
+    assert_new_game_success(client_app,
+                            json.dumps({}))
 
 
-def test_new_all_zero_fail(test_app):
-    new_game_response = test_app.post(
-        '/new',
-        data='{"min": 0, "max": 0, "piles": 0}',
-        content_type='application/json'
-    )
-    expected_json = {"error": ["Please use integers between 1 and 50"]}
-    assert json.loads(new_game_response.data) == expected_json
+def test_new_max_limit_fail(client_app):
+    assert_new_game_failed(client_app,
+                           json.dumps({'min': 10, 'max': 51, 'piles': 3}))
 
 
-def test_min_greater_than_max_fail(test_app):
-    new_game_response = test_app.post(
-        '/new',
-        data='{"min": 30, "max": 10, "piles": 4}',
-        content_type='application/json'
-    )
-    expected_json = {"error": ["Min(30) cant be greater than Max(10)"]}
-    assert json.loads(new_game_response.data) == expected_json
+def test_new_piles_limit_fail(client_app):
+    assert_new_game_failed(client_app,
+                           json.dumps({'min': 10, 'max': 10, 'piles': 51}))
 
 
-def test_new_non_int_pile_fail(test_app):
-    new_game_response = test_app.post(
-        '/new',
-        data='{"min": 0, "max": 10, "piles": "a"}',
-        content_type='application/json'
-    )
-    expected_json = {"error": ["Please use integers between 1 and 50"]}
-    assert json.loads(new_game_response.data) == expected_json
+def test_new_all_limit_fail(client_app):
+    assert_new_game_failed(client_app,
+                           json.dumps({'min': 51, 'max': 51, 'piles': 51}))
 
 
-def test_new_non_int_all_fail(test_app):
-    new_game_response = test_app.post(
-        '/new',
-        data='{"min": "S", "max": "M", "piles": "D"}',
-        content_type='application/json'
-    )
-    expected_json = {"error": ["Please use integers between 1 and 50"]}
-    assert json.loads(new_game_response.data) == expected_json
+def test_new_pile_zero_fail(client_app):
+    assert_new_game_failed(client_app,
+                           json.dumps({'min': 10, 'max': 20, 'piles': 0}))
+
+
+def test_new_all_zero_fail(client_app):
+    assert_new_game_failed(client_app,
+                           json.dumps({'min': 0, 'max': 0, 'piles': 0}))
+
+
+def test_min_greater_than_max_fail(client_app):
+    assert_new_game_failed(client_app,
+                           json.dumps({'min': 30, 'max': 10, 'piles': 4}))
+
+
+def test_new_non_int_pile_fail(client_app):
+    assert_new_game_failed(client_app,
+                           json.dumps({'min': 10, 'max': 20, 'piles': "a"}))
+
+
+def test_new_non_int_all_fail(client_app):
+    assert_new_game_failed(client_app,
+                           json.dumps({'min': "S", 'max': "M", 'piles': "D"}))

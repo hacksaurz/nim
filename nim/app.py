@@ -8,7 +8,10 @@ from flask import (
 
 
 from nim.exceptions import NimException
-from nim.game import Nim
+from nim.game import (
+    Nim,
+    DEFAULT_GAME,
+)
 
 
 app = Flask(__name__)
@@ -36,16 +39,19 @@ def update_game_state():
 
 @app.route('/new', methods=['GET', 'POST'])
 def new_game():
-    game_request = request.get_json()
+    """
+    route for /new so user can start new game
+    Uses JSON from frontend for params in new game
+    """
+    session['default_prefs'] = DEFAULT_GAME
+    user_request = request.get_json()
+    game_request = {**session.get('default_prefs', {}), **user_request}
     try:
-        state = app.game.new_game(
-            min=game_request['min'],
-            max=game_request['max'],
-            piles=game_request['piles'],
-        )
+        state = app.game.new_game(**game_request)
     except NimException as e:
-        return jsonify({'error': e.args})
+        return jsonify({'error': e.args}), 400
     session['state'] = state
+    session['default_prefs'] = state
     return jsonify({'state': state})
 
 
