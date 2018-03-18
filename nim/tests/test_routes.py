@@ -1,6 +1,8 @@
 import json
-from nim.app import app
+
 import pytest
+
+from nim.app import app
 
 
 @pytest.fixture
@@ -12,16 +14,24 @@ def assert_new_game_success(passed_client, req):
     """
     Asserts post to /new is 200
     & state is not empty
+    Checks piles is in line with req &
+    none in response lower than mix or
+    higher than max
     :param passed_client: test_client
-    :param req: json to post
-    :return: bool
+    :param req: Desired game conditions
     """
     response = passed_client.post(
         '/new',
         content_type='application/json',
         data=req
     )
-    assert response.status_code == 200 and not len(json.loads(response.data)['state']) == 0
+    if 'piles' in json.loads(req):
+        assert len(json.loads(response.data)['state']) == json.loads(req)['piles']
+    if 'min' in json.loads(req):
+        assert min(json.loads(response.data)['state']) >= json.loads(req)['min']
+    if 'max' in json.loads(req):
+        assert max(json.loads(response.data)['state']) <= json.loads(req)['max']
+    assert response.status_code == 200 and json.loads(response.data)['state']
 
 
 def assert_new_game_failed(passed_client, req):
@@ -30,7 +40,6 @@ def assert_new_game_failed(passed_client, req):
      & the string 'error' exists in the response
     :param passed_client: test_client
     :param req: json to post
-    :return: bool
     """
     response = passed_client.post(
         '/new',

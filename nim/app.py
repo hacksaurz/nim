@@ -51,7 +51,7 @@ def new_game():
     except NimException as e:
         return jsonify({'error': e.args}), 400
     session['state'] = state
-    session['default_prefs'] = state
+    session['default_prefs'] = game_request
     return jsonify({'state': state})
 
 
