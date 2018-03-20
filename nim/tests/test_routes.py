@@ -10,6 +10,33 @@ def client_app():
     return app.test_client()
 
 
+# def assert_new_game_success(passed_client, req):
+#     """
+#     Asserts post to /new is 200
+#     & state is not empty
+#     Checks piles is in line with req &
+#     none in response lower than mix or
+#     higher than max
+#     :param passed_client: test_client
+#     :param req: Desired game conditions
+#     """
+#     response = passed_client.post(
+#         '/new',
+#         content_type='application/json',
+#         data=req
+#     )
+#     assert response.status_code == 200
+#     assert json.loads(response.data)['state']
+#     state = json.loads(response.data)['state']
+#     request = json.loads(req)
+#     if 'piles' in request:
+#         assert len(state) == request['piles']
+#     if 'min' in request:
+#         assert min(state) >= request['min']
+#     if 'max' in request:
+#         assert max(state) <= request['max']
+
+
 def assert_new_game_success(passed_client, req):
     """
     Asserts post to /new is 200
@@ -25,13 +52,21 @@ def assert_new_game_success(passed_client, req):
         content_type='application/json',
         data=req
     )
-    if 'piles' in json.loads(req):
-        assert len(json.loads(response.data)['state']) == json.loads(req)['piles']
-    if 'min' in json.loads(req):
-        assert min(json.loads(response.data)['state']) >= json.loads(req)['min']
-    if 'max' in json.loads(req):
-        assert max(json.loads(response.data)['state']) <= json.loads(req)['max']
-    assert response.status_code == 200 and json.loads(response.data)['state']
+    assert response.status_code == 200
+    response = json.loads(response.data)
+    request = json.loads(req)
+    assert response['state']
+    state = response['state']
+    assert all(isinstance(x, int) and 0 <= x <= 50
+               for x in state)
+    if 'piles' in request:
+        assert len(state) == request['piles']
+    if 'min' in request and 'max' in request:
+        assert 1 <= min(state) <= max(state) <= 50
+    if 'min' in request:
+        assert min(state) >= request['min']
+    if 'max' in request:
+        assert max(state) <= request['max']
 
 
 def assert_new_game_failed(passed_client, req):
@@ -46,7 +81,9 @@ def assert_new_game_failed(passed_client, req):
         content_type='application/json',
         data=req
     )
-    assert response.status_code == 400 and b'error' in response.data
+    assert response.status_code == 400
+    assert 'error' in json.loads(response.data) and json.loads(response.data)['error']
+    assert 'state' not in json.loads(response.data)
 
 
 def test_index(client_app):
@@ -79,6 +116,16 @@ def test_new_omit_all_success(client_app):
                             json.dumps({}))
 
 
+def test_new_nums_limit_success(client_app):
+    assert_new_game_success(client_app,
+                            json.dumps({'min': 50, 'max': 50}))
+
+
+def test_new_piles_limit_success(client_app):
+    assert_new_game_success(client_app,
+                            json.dumps({'piles': 5}))
+
+
 def test_new_max_limit_fail(client_app):
     assert_new_game_failed(client_app,
                            json.dumps({'min': 10, 'max': 51, 'piles': 3}))
@@ -89,9 +136,9 @@ def test_new_piles_limit_fail(client_app):
                            json.dumps({'min': 10, 'max': 10, 'piles': 51}))
 
 
-def test_new_all_limit_fail(client_app):
+def test_new_min_limit_fail(client_app):
     assert_new_game_failed(client_app,
-                           json.dumps({'min': 51, 'max': 51, 'piles': 51}))
+                           json.dumps({'min': 51, 'max': 51, 'piles': 4}))
 
 
 def test_new_pile_zero_fail(client_app):
@@ -99,9 +146,14 @@ def test_new_pile_zero_fail(client_app):
                            json.dumps({'min': 10, 'max': 20, 'piles': 0}))
 
 
-def test_new_all_zero_fail(client_app):
+def test_new_min_zero_fail(client_app):
     assert_new_game_failed(client_app,
-                           json.dumps({'min': 0, 'max': 0, 'piles': 0}))
+                           json.dumps({'min': 0, 'max': 20, 'piles': 4}))
+
+
+def test_new_max_zero_fail(client_app):
+    assert_new_game_failed(client_app,
+                           json.dumps({'min': 5, 'max': 0, 'piles': 4}))
 
 
 def test_min_greater_than_max_fail(client_app):
@@ -114,6 +166,11 @@ def test_new_non_int_pile_fail(client_app):
                            json.dumps({'min': 10, 'max': 20, 'piles': "a"}))
 
 
-def test_new_non_int_all_fail(client_app):
+def test_new_non_int_min_fail(client_app):
     assert_new_game_failed(client_app,
-                           json.dumps({'min': "S", 'max': "M", 'piles': "D"}))
+                           json.dumps({'min': "S", 'max': 20, 'piles': 4}))
+
+
+def test_new_non_int_max_fail(client_app):
+    assert_new_game_failed(client_app,
+                           json.dumps({'min': 10, 'max': "F", 'piles': 4}))
