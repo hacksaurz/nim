@@ -4,8 +4,16 @@ from random import choice, randint
 
 from nim.exceptions import NimException
 
+
 NUM_LIMIT = 50
-DEFAULT_GAME = {'min': 5, 'max': 15, 'piles': 4}
+DEFAULT_MIN = 5
+DEFAULT_MAX = 20
+DEFAULT_PILES = 3
+DEFAULT_GAME = {
+    'min': DEFAULT_MIN,
+    'max': DEFAULT_MAX,
+    'piles': DEFAULT_PILES,
+    }
 
 
 class Bot():
@@ -97,8 +105,8 @@ class Nim():
     def new_game(self, min, max, piles):
         """
         Logic of new game dealt with here.
-        Uses either user-passed JSON or
-        default values to fill in params
+        Uses min, max & piles to return a
+        list of piles
         """
         if not all(isinstance(x, int) and 1 <= x <= NUM_LIMIT
                    for x in (min, max, piles)):

@@ -2,39 +2,18 @@ import json
 
 import pytest
 
+from nim.game import (
+    DEFAULT_MIN,
+    DEFAULT_MAX,
+    DEFAULT_PILES
+)
+
 from nim.app import app
 
 
 @pytest.fixture
 def client_app():
     return app.test_client()
-
-
-# def assert_new_game_success(passed_client, req):
-#     """
-#     Asserts post to /new is 200
-#     & state is not empty
-#     Checks piles is in line with req &
-#     none in response lower than mix or
-#     higher than max
-#     :param passed_client: test_client
-#     :param req: Desired game conditions
-#     """
-#     response = passed_client.post(
-#         '/new',
-#         content_type='application/json',
-#         data=req
-#     )
-#     assert response.status_code == 200
-#     assert json.loads(response.data)['state']
-#     state = json.loads(response.data)['state']
-#     request = json.loads(req)
-#     if 'piles' in request:
-#         assert len(state) == request['piles']
-#     if 'min' in request:
-#         assert min(state) >= request['min']
-#     if 'max' in request:
-#         assert max(state) <= request['max']
 
 
 def assert_new_game_success(passed_client, req):
@@ -55,24 +34,18 @@ def assert_new_game_success(passed_client, req):
     assert response.status_code == 200
     response = json.loads(response.data)
     request = json.loads(req)
-    assert response['state']
+    assert 'state' in response
     state = response['state']
-    assert all(isinstance(x, int) and 0 <= x <= 50
-               for x in state)
-    if 'piles' in request:
-        assert len(state) == request['piles']
-    if 'min' in request and 'max' in request:
-        assert 1 <= min(state) <= max(state) <= 50
-    if 'min' in request:
-        assert min(state) >= request['min']
-    if 'max' in request:
-        assert max(state) <= request['max']
+    assert all(isinstance(x, int) for x in state)
+    assert request.get('piles', DEFAULT_PILES) == len(state)
+    assert request.get('min', DEFAULT_MIN) <= min(state) <= max(state)
+    request.get('max', DEFAULT_MAX)
 
 
 def assert_new_game_failed(passed_client, req):
     """
     Asserts post tp /new gets error code 400
-     & the string 'error' exists in the response
+    & the string 'error' exists in the response
     :param passed_client: test_client
     :param req: json to post
     """
