@@ -5,6 +5,7 @@ from flask import (
     Flask,
     request,
 )
+
 from nim.exceptions import NimException
 from nim.game import Nim
 

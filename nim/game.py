@@ -97,7 +97,8 @@ class Nim():
         self.greedy = Greedy()
         self.chaos = Chaos()
 
-    def new_game(self, min=DEFAULT_MIN, max=DEFAULT_MAX, piles=DEFAULT_PILES):
+    @staticmethod
+    def new_game(min=DEFAULT_MIN, max=DEFAULT_MAX, piles=DEFAULT_PILES):
         """
         Logic of new game dealt with here. Uses min, max & piles to return a
         list of piles
