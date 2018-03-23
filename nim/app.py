@@ -5,14 +5,8 @@ from flask import (
     Flask,
     request,
 )
-
-
 from nim.exceptions import NimException
-from nim.game import (
-    Nim,
-    DEFAULT_GAME,
-)
-
+from nim.game import Nim
 
 app = Flask(__name__)
 app.secret_key = 'super secret key'
@@ -40,11 +34,11 @@ def update_game_state():
 @app.route('/new', methods=['GET', 'POST'])
 def new_game():
     """
-    route for /new so user can start new game
-    Uses JSON from frontend for params in new game
+    route for /new so user can start new game. Uses JSON from frontend
+    for params in new game
     """
     user_request = request.get_json()
-    game_request = {**DEFAULT_GAME, **user_request}
+    game_request = {**user_request}
     try:
         state = app.game.new_game(**game_request)
     except NimException as e:

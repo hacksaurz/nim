@@ -9,11 +9,6 @@ NUM_LIMIT = 50
 DEFAULT_MIN = 5
 DEFAULT_MAX = 20
 DEFAULT_PILES = 3
-DEFAULT_GAME = {
-    'min': DEFAULT_MIN,
-    'max': DEFAULT_MAX,
-    'piles': DEFAULT_PILES,
-    }
 
 
 class Bot():
@@ -102,10 +97,9 @@ class Nim():
         self.greedy = Greedy()
         self.chaos = Chaos()
 
-    def new_game(self, min, max, piles):
+    def new_game(self, min=DEFAULT_MIN, max=DEFAULT_MAX, piles=DEFAULT_PILES):
         """
-        Logic of new game dealt with here.
-        Uses min, max & piles to return a
+        Logic of new game dealt with here. Uses min, max & piles to return a
         list of piles
         """
         if not all(isinstance(x, int) and 1 <= x <= NUM_LIMIT
