@@ -3,11 +3,11 @@ from flask import (
     render_template,
     session,
     Flask,
+    request,
 )
-from json import loads
 
-from game import Nim
-
+from nim.exceptions import NimException
+from nim.game import Nim
 
 app = Flask(__name__)
 app.secret_key = 'super secret key'
@@ -34,12 +34,14 @@ def update_game_state():
 
 @app.route('/new', methods=['GET', 'POST'])
 def new_game():
-    json = loads('{"min": 3, "max": 12, "piles": 3}')
-    state = app.game.new_game(
-        min=json['min'],
-        max=json['max'],
-        piles=json['piles'],
-    )
+    """
+    route for /new so user can start new game. Uses JSON from frontend
+    for params in new game
+    """
+    try:
+        state = app.game.new_game(**request.get_json())
+    except NimException as e:
+        return jsonify({'error': e.args}), 400
     session['state'] = state
     return jsonify({'state': state})
 

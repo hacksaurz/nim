@@ -10,7 +10,7 @@
 `pip install -r requirements.txt`
 
 ### run
-`python app.py`
+`python run.py`
 
 ### tools
 [pip][pip]
