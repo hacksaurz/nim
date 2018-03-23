@@ -37,10 +37,8 @@ def new_game():
     route for /new so user can start new game. Uses JSON from frontend
     for params in new game
     """
-    user_request = request.get_json()
-    game_request = {**user_request}
     try:
-        state = app.game.new_game(**game_request)
+        state = app.game.new_game(**request.get_json())
     except NimException as e:
         return jsonify({'error': e.args}), 400
     session['state'] = state

@@ -4,7 +4,8 @@ import pytest
 
 from nim.app import app
 from nim.game import (
-    NUM_LIMIT,
+    NUM_LIMIT_MIN,
+    NUM_LIMIT_MAX,
     DEFAULT_MIN,
     DEFAULT_MAX,
     DEFAULT_PILES,
@@ -35,9 +36,10 @@ def assert_new_game_success(client, request):
     assert all(isinstance(x, int) for x in state)
     # Checking num piles returned is requested or default
     assert request.get('piles', DEFAULT_PILES) == len(state)
-    # Checking piles returned fall within request or default
-    assert ((request.get('min', DEFAULT_MIN) <= min(state) <= max(state)
-            <= request.get('max', DEFAULT_MAX)) <= NUM_LIMIT)
+    # Check that min value was respected
+    assert NUM_LIMIT_MIN <= request.get('min', DEFAULT_MIN) <= min(state)
+    # Check that max value was respected
+    assert max(state) <= request.get('max', DEFAULT_MAX) <= NUM_LIMIT_MAX
 
 
 def assert_new_game_failed(client, request):
@@ -56,6 +58,15 @@ def assert_new_game_failed(client, request):
     response = json.loads(response.data)
     assert 'error' in response and response['error']
     assert 'state' not in response
+
+
+def test_constants():
+    """
+    Ensures DEFAULT constants for min, max & piles are in between min limit &
+    max limit constants
+    """
+    assert all(NUM_LIMIT_MIN <= x <= NUM_LIMIT_MAX
+               for x in (DEFAULT_MIN, DEFAULT_MAX, DEFAULT_PILES))
 
 
 def test_index(client_app):
