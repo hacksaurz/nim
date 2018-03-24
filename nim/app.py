@@ -1,4 +1,4 @@
-from flask import (
+from flask import (  # pylint: disable=F0401
     jsonify,
     render_template,
     session,

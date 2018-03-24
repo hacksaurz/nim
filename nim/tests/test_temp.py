@@ -1,6 +1,8 @@
+# pylint: disable=redefined-outer-name
+import pytest  # pylint: disable=F0401
+
 from nim.exceptions import NimException
 from nim.game import Nim
-import pytest
 
 
 @pytest.fixture
