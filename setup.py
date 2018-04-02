@@ -18,7 +18,7 @@ setup(
         'pluggy==0.6.0',
         'py==1.5.3',
         'six==1.11.0',
-        'tox==2.9.1',
+        'tox==3.0.0',
         'virtualenv==15.2.0',
         'Werkzeug==0.14.1',
     ],
