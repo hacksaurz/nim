@@ -30,7 +30,7 @@ def assert_new_game_success(client, request):
         data=json.dumps(request)
     )
     assert response.status_code == 200
-    response = json.loads(response.data)
+    response = json.loads(response.data.decode("utf-8"))
     assert 'state' in response
     state = response['state']
     assert all(isinstance(x, int) for x in state)
@@ -55,7 +55,7 @@ def assert_new_game_failed(client, request):
         data=json.dumps(request)
     )
     assert response.status_code == 400
-    response = json.loads(response.data)
+    response = json.loads(response.data.decode("utf-8"))
     assert 'error' in response and response['error']
     assert 'state' not in response
 
