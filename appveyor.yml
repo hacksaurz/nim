@@ -3,7 +3,9 @@ build: false
 environment:
   matrix:
     - PYTHON: "C:\\Python36"
+      TOXENV: "py36"
     - PYTHON: "C:\\Python36-x64"
+      TOXENV: "py36"
 
 install: pip install -U tox
 
