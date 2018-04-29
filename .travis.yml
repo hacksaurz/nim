@@ -7,7 +7,6 @@ python:
 # Taken from https://github.com/travis-ci/travis-ci/issues/2312#issuecomment-289140791
 matrix:
   include:
-    - os: linux
     - os: osx
       language: generic
       before_install:
