@@ -12,8 +12,8 @@ matrix:
       before_install:
         - brew update
         - brew upgrade python
-        - virtualenv env -p python3
-        - source env/bin/activate
+        - python3 -m venv venv
+        - source venv/bin/activate
 install: pip install codecov tox-travis
 env:
   - TOX_SKIP_MISSING_INTERPRETERS=False
