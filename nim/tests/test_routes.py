@@ -1,6 +1,7 @@
+# pylint: disable=redefined-outer-name
 import json
 
-import pytest
+import pytest  # pylint: disable=F0401
 
 from nim.app import app
 from nim.game import (
@@ -17,14 +18,30 @@ def client_app():
     return app.test_client()
 
 
-def assert_new_game_success(client, request):
+@pytest.mark.parametrize("request", [
+    # With valid min, max and piles
+    {'min': 5, 'max': 15, 'piles': 4},
+    # Without min
+    {'max': 15, 'piles': 4},
+    # Without max
+    {'min': 5, 'piles': 4},
+    # Without piles
+    {'min': 5, 'max': 15},
+    # Without any arguments
+    {},
+    # Max out the number of stones per pile
+    {'min': NUM_LIMIT_MAX, 'max': NUM_LIMIT_MAX},
+    # Max out the number of piles
+    {'piles': NUM_LIMIT_MAX},
+])
+def test_new_game_success(client_app, request):
     """
     Asserts post to /new gets 200 & state is not empty. Checks response state
     is in line with request. Uses arguments passed or DEFAULT
-    :param client: test_client
+    :param client_app: test_client
     :param request: Desired game conditions
     """
-    response = client.post(
+    response = client_app.post(
         '/new',
         content_type='application/json',
         data=json.dumps(request)
@@ -42,14 +59,36 @@ def assert_new_game_success(client, request):
     assert max(state) <= request.get('max', DEFAULT_MAX) <= NUM_LIMIT_MAX
 
 
-def assert_new_game_failed(client, request):
+@pytest.mark.parametrize("request", [
+    # Too big value for min (passing max to satisfy min <= max)
+    {'min': NUM_LIMIT_MAX + 1, 'max': NUM_LIMIT_MAX + 1},
+    # Too big value for max
+    {'max': NUM_LIMIT_MAX + 1},
+    # Too big value for piles
+    {'piles': NUM_LIMIT_MAX + 1},
+    # Too small value for min
+    {'min': NUM_LIMIT_MIN - 1},
+    # Too small value for max
+    {'max': NUM_LIMIT_MIN - 1},
+    # Too small value for piles
+    {'piles': NUM_LIMIT_MIN - 1},
+    # Non int value for min
+    {'min': "a"},
+    # Non int value for max
+    {'max': "a"},
+    # Non int value for piles
+    {'piles': "a"},
+    # min greater than max
+    {'min': 30, 'max': 10},
+])
+def test_new_game_failed(client_app, request):
     """
     Asserts post to new_game route 400, the string 'error' is in the response
     and response isn't empty
-    :param client: test_client
+    :param client_app: test_client
     :param request: json to post
     """
-    response = client.post(
+    response = client_app.post(
         '/new',
         content_type='application/json',
         data=json.dumps(request)
@@ -70,73 +109,8 @@ def test_constants():
 
 
 def test_index(client_app):
+    """
+    Ensures we can load the app
+    """
     response = client_app.get('/', content_type='html/text')
     assert response.status_code == 200
-
-
-def test_new_success(client_app):
-    assert_new_game_success(client_app, {'min': 5, 'max': 15, 'piles': 4})
-
-
-def test_new_omit_min_success(client_app):
-    assert_new_game_success(client_app, {'max': 15, 'piles': 4})
-
-
-def test_new_omit_max_success(client_app):
-    assert_new_game_success(client_app, {'min': 5, 'piles': 4})
-
-
-def test_new_omit_piles_success(client_app):
-    assert_new_game_success(client_app, {'min': 5, 'max': 15})
-
-
-def test_new_omit_all_success(client_app):
-    assert_new_game_success(client_app, {})
-
-
-def test_new_nums_limit_success(client_app):
-    assert_new_game_success(client_app, {'min': 50, 'max': 50})
-
-
-def test_new_piles_limit_success(client_app):
-    assert_new_game_success(client_app, {'piles': 5})
-
-
-def test_new_max_limit_fail(client_app):
-    assert_new_game_failed(client_app, {'max': 51})
-
-
-def test_new_piles_limit_fail(client_app):
-    assert_new_game_failed(client_app, {'piles': 51})
-
-
-def test_new_min_limit_fail(client_app):
-    assert_new_game_failed(client_app, {'min': 51, 'max': 51})
-
-
-def test_new_pile_zero_fail(client_app):
-    assert_new_game_failed(client_app, {'piles': 0})
-
-
-def test_new_min_zero_fail(client_app):
-    assert_new_game_failed(client_app, {'min': 0})
-
-
-def test_new_max_zero_fail(client_app):
-    assert_new_game_failed(client_app, {'max': 0})
-
-
-def test_min_greater_than_max_fail(client_app):
-    assert_new_game_failed(client_app, {'min': 30, 'max': 10})
-
-
-def test_new_non_int_pile_fail(client_app):
-    assert_new_game_failed(client_app, {'piles': "a"})
-
-
-def test_new_non_int_min_fail(client_app):
-    assert_new_game_failed(client_app, {'min': "S"})
-
-
-def test_new_non_int_max_fail(client_app):
-    assert_new_game_failed(client_app, {'max': "F"})
