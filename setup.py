@@ -9,6 +9,7 @@ CLASSIFIERS = [
     "Framework :: Pytest",
     "Natural Language :: English",
     "Operating System :: MacOS",
+    "Operating System :: Microsoft :: Windows",
     "Operating System :: POSIX :: Linux",
     "Programming Language :: JavaScript",
     "Programming Language :: Python :: 3.6",
