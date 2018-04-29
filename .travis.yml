@@ -4,6 +4,17 @@ python:
   - "3.6"
   - "3.7-dev"
   - "pypy3"
+# Taken from https://github.com/travis-ci/travis-ci/issues/2312#issuecomment-289140791
+matrix:
+  include:
+    - os: linux
+    - os: osx
+      language: generic
+      before_install:
+        - brew update
+        - brew install python3
+        - virtualenv env -p python3
+        - source env/bin/activate
 install: pip install codecov tox-travis
 env:
   - TOX_SKIP_MISSING_INTERPRETERS=False
