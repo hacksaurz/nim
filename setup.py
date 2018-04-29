@@ -27,7 +27,7 @@ setup(
     classifiers=CLASSIFIERS,
     install_requires=[
         'click==6.7',
-        'Flask==0.12.2',
+        'Flask==1.0',
         'itsdangerous==0.24',
         'Jinja2==2.10',
         'MarkupSafe==1.0',
