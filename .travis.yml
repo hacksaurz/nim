@@ -12,6 +12,7 @@ matrix:
       before_install:
         - brew update
         - brew upgrade python
+        - brew install python@2
         - virtualenv venv -p python3
         - source venv/bin/activate
 install: pip install codecov tox-travis
