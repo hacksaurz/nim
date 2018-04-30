@@ -4,17 +4,21 @@ python:
   - "3.6"
   - "3.7-dev"
   - "pypy3"
-# Taken from https://github.com/travis-ci/travis-ci/issues/2312#issuecomment-289140791
+# Taken from https://github.com/oz123/pytest-localftpserver
 matrix:
   include:
     - os: osx
       language: generic
+      python: 3.6
       before_install:
-        - brew update
-        - brew upgrade python
-        - brew install python@2
-        - virtualenv venv -p python3
-        - source venv/bin/activate
+        - wget https://repo.continuum.io/miniconda/Miniconda3-latest-MacOSX-x86_64.sh -O miniconda.sh
+        - bash miniconda.sh -b -p $HOME/miniconda
+        - export PATH="$HOME/miniconda/bin:$PATH"
+        - conda create -n py36 python=3.6 -y
+      install:
+        - source activate py36
+        - pip install tox
+        - conda install -y --name py36 virtualenv
 install: pip install codecov tox-travis
 env:
   - TOX_SKIP_MISSING_INTERPRETERS=False
