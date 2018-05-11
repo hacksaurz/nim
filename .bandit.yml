@@ -1,2 +1,4 @@
 exclude_dirs:
   - '/tests/'
+skips:
+  - B311  # Ignore warnings about standard pseudo-random generators
