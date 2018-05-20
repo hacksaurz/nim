@@ -1,0 +1,28 @@
+version: "2"
+
+engines:
+  duplication:
+    enabled: true
+    config:
+      languages:
+        python:
+          python_version: 3
+
+plugins:
+  fixme:
+    enabled: true
+  markdownlint:
+    enabled: true
+  pep8:
+    enabled: true
+  radon:
+    enabled: true
+  shellcheck:
+    enabled: true
+  sonar-python:
+    enabled: true
+    config:
+      tests_patterns:
+        - **/tests/**
+
+exclude_paths: []
