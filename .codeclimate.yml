@@ -15,9 +15,8 @@ plugins:
     enabled: true
   radon:
     enabled: true
-    config:
-      tests_patterns:
-        - '**/tests/**'
+    exclude_patterns:
+      - '**/tests/**'
   shellcheck:
     enabled: true
   sonar-python:
