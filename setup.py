@@ -36,7 +36,7 @@ setup(
         'py==1.5.3',
         'six==1.11.0',
         'tox==3.0.0',
-        'virtualenv==15.2.0',
+        'virtualenv==16.0.0',
         'Werkzeug==0.14.1',
     ],
 )
