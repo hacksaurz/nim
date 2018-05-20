@@ -29,25 +29,36 @@
 
     <div id=piles></div>
 
-
     <div style="clear: both;">
-      <button onclick="updateGameState()">Make Move</button>
-      <button onclick="newGame()">New Game</button>
+      <input type="number" id="pile" value="1" min="1">
+      pile
+    <div>
+    </div>
+      <input type="number" id="stones" value="1" min="1">
+      stones
     </div>
 
     <div>
-      <input type="number" id="numPiles" value="3" min="1">
+      <button onclick="updateGameState()">Make Move</button>
+    </div>
+
+    <div>
+      <input type="number" id="numPiles" value="3" min="1" onchange="newGame()">
       total piles
     </div>
 
     <div>
-      <input type="number" id="minPerPile" value="4" min="1">
+      <input type="number" id="minPerPile" value="4" min="1" onchange="newGame()">
       minimum stones per pile
     </div>
 
     <div>
-      <input type="number" id="maxPerPile" value="12" min="1">
+      <input type="number" id="maxPerPile" value="12" min="1" onchange="newGame()">
       maximum stones per pile
+    </div>
+
+    <div>
+      <button onclick="newGame()">New Game</button>
     </div>
 
     <script src="/static/game_operations.js" charset="utf-8"></script>

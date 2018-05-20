@@ -16,7 +16,7 @@ def index():
     )
 
 
-@app.route('/update')
+@app.route('/update', methods=['GET', 'POST'])
 def update_game_state():
     state = session['state']
     bot_move = app.game.chaos.move(state)
