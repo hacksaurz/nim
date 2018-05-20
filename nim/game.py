@@ -4,11 +4,14 @@ from random import choice, randint
 
 from nim.exceptions import NimException
 
-NUM_LIMIT_MIN = 1
-NUM_LIMIT_MAX = 50
-DEFAULT_MIN = 5
-DEFAULT_MAX = 20
-DEFAULT_PILES = 3
+ABS_MIN_STONES_PER_PILE = 1
+ABS_MAX_STONES_PER_PILE = 50
+ABS_MIN_NUM_PILES = 1
+ABS_MAX_NUM_PILES = 50
+
+DEFAULT_MIN_STONES_PER_PILE = 5
+DEFAULT_MAX_STONES_PER_PILE = 20
+DEFAULT_NUM_PILES = 3
 
 
 class Bot():
@@ -99,19 +102,33 @@ class Nim():
         self.chaos = Chaos()
 
     @staticmethod
-    def new_game(min=DEFAULT_MIN, max=DEFAULT_MAX, piles=DEFAULT_PILES):
+    def new_game(min_stones_per_pile=DEFAULT_MIN_STONES_PER_PILE,
+                 max_stones_per_pile=DEFAULT_MAX_STONES_PER_PILE,
+                 num_piles=DEFAULT_NUM_PILES):
         """
-        Logic of new game dealt with here. Uses min, max & piles to return a
-        list of piles
+        Logic of new game dealt with here. Uses min_stones_per_pile,
+        max_stones_per_pile & num_piles to return a list of piles
         """
-        if not all(isinstance(x, int) and NUM_LIMIT_MIN <= x <= NUM_LIMIT_MAX
-                   for x in (min, max, piles)):
-            raise NimException(f"Please use integers between {NUM_LIMIT_MIN} "
-                               "and {NUM_LIMIT_MAX}")
-        elif min > max:
+        if not all(isinstance(x, int) and
+                   ABS_MIN_STONES_PER_PILE <= x <= ABS_MAX_STONES_PER_PILE
+                   for x in (min_stones_per_pile, max_stones_per_pile)):
             raise NimException(
-                f"Min({min}) cant be greater than Max({max})")
-        return [randint(min, max) for _ in range(piles)]
+                f"Please use integers between {ABS_MIN_STONES_PER_PILE} and "
+                "{ABS_MAX_STONES_PER_PILE} for the number of stones"
+            )
+        elif not (isinstance(num_piles, int) and
+                  ABS_MIN_NUM_PILES <= num_piles <= ABS_MAX_NUM_PILES):
+            raise NimException(
+                f"Please use an integer between {ABS_MIN_NUM_PILES} and "
+                "{ABS_MAX_NUM_PILES} for the number of piles"
+            )
+        elif min_stones_per_pile > max_stones_per_pile:
+            raise NimException(
+                f"min_stones_per_pile ({min_stones_per_pile}) can't be "
+                "greater than max_stones_per_pile ({max_stones_per_pile})"
+            )
+        return [randint(min_stones_per_pile, max_stones_per_pile)
+                for _ in range(num_piles)]
 
     def update(self, state, move):
         if not self.is_valid_move(state, move):
