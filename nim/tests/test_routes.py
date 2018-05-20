@@ -13,7 +13,7 @@ from nim.game import (
 )
 
 
-@pytest.fixture
+@pytest.fixture(scope="module")
 def client_app():
     return app.test_client()
 
