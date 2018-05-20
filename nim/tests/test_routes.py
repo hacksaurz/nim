@@ -3,7 +3,7 @@ import json
 
 import pytest  # pylint: disable=F0401
 
-from nim.app import app
+from nim import app
 from nim.game import (
     NUM_LIMIT_MIN,
     NUM_LIMIT_MAX,

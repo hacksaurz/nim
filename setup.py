@@ -22,7 +22,6 @@ setup(
     version='1.0',
     description='Web app for playing Nim',
     author='Hacksaurz',
-    # author_email='drunk@yourwedding.com',
     url='https://github.com/hacksaurz/nim',
     packages=find_packages(exclude=['*.tests']),
     classifiers=CLASSIFIERS,

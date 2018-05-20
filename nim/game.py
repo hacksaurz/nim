@@ -81,7 +81,8 @@ class Chaos(Bot):
     """
     def move_strategy(self, state):
         """
-        Takes the state of the game and returns the result of another bot's move
+        Takes the state of the game and returns the result of another bot's
+        move
         """
         not_chaos_bot = [bot for bot in Bot.subclasses if bot != Chaos]
         chosen_bot = choice(not_chaos_bot)()
@@ -105,8 +106,8 @@ class Nim():
         """
         if not all(isinstance(x, int) and NUM_LIMIT_MIN <= x <= NUM_LIMIT_MAX
                    for x in (min, max, piles)):
-            raise NimException(
-                f"Please use integers between {NUM_LIMIT_MIN} and {NUM_LIMIT_MAX}")
+            raise NimException(f"Please use integers between {NUM_LIMIT_MIN} "
+                               "and {NUM_LIMIT_MAX}")
         elif min > max:
             raise NimException(
                 f"Min({min}) cant be greater than Max({max})")

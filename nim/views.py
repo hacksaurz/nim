@@ -2,16 +2,11 @@ from flask import (  # pylint: disable=F0401
     jsonify,
     render_template,
     session,
-    Flask,
     request,
 )
 
+from nim import app
 from nim.exceptions import NimException
-from nim.game import Nim
-
-app = Flask(__name__)
-app.secret_key = 'super secret key'
-app.game = Nim()
 
 
 @app.route('/')
@@ -24,8 +19,6 @@ def index():
 @app.route('/update')
 def update_game_state():
     state = session['state']
-    # player_move = loads('{"pile": 0, "stones": 1}')
-    # app.game.update(state, player_move)
     bot_move = app.game.chaos.move(state)
     app.game.update(state, bot_move)
     session['state'] = state
@@ -44,7 +37,3 @@ def new_game():
         return jsonify({'error': e.args}), 400
     session['state'] = state
     return jsonify({'state': state})
-
-
-if __name__ == '__main__':
-    app.run(debug=True)
