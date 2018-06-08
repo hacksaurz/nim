@@ -1,0 +1,26 @@
+---
+engines:
+  # See https://support.codacy.com/hc/en-us/articles/213632009-Engines
+  # Analysis engines
+  bandit:
+    enabled: true
+    exclude_paths:
+      - '**/tests/**'
+  eslint:
+    enabled: true
+  pmd:
+    enabled: true
+  prospector:
+    enabled: true
+  pylint:
+    enabled: true
+    python_version: 3
+  shellcheck:
+    enabled: true
+  # Other tools
+  duplication:
+    enabled: true
+  metrics:
+    enabled: true
+  radon:
+    enabled: true
