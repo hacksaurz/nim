@@ -10,9 +10,9 @@ function newGame() {
     type:"POST",
     url: "/new",
     data: JSON.stringify({
-      "min": parseInt($('#minPerPile').val()),
-      "max": parseInt($('#maxPerPile').val()),
-      "piles": parseInt($('#numPiles').val())
+      "min_stones_per_pile": parseInt($('#minStonesPerPile').val()),
+      "max_stones_per_pile": parseInt($('#maxStonesPerPile').val()),
+      "num_piles": parseInt($('#numPiles').val())
     }),
     contentType: contTypeJSON,
     dataType : 'json',
