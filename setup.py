@@ -31,7 +31,7 @@ setup(
         'itsdangerous==0.24',
         'Jinja2==2.10',
         'MarkupSafe==1.0',
-        'pluggy==0.6.0',
+        'pluggy==0.7.1',
         'py==1.5.4',
         'six==1.11.0',
         'tox==3.1.2',
