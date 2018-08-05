@@ -17,12 +17,13 @@ matrix:
         - conda create -n py36 python=3.6 -y
       install:
         - source activate py36
+        - pip install tox
         - conda install -y --name py36 virtualenv
       script: tox -e py36,lint,lint-not-windows,test,security
-install: pip install codecov detox
+install: pip install codecov tox-travis
 env:
   - TOX_SKIP_MISSING_INTERPRETERS=False
-script: detox
+script: tox
 after_success:
   - codecov
 notifications:
