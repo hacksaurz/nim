@@ -9,6 +9,8 @@
 
 `pip install -r requirements.txt`
 
+`detox`
+
 ### run
 `python run.py`
 
