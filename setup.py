@@ -32,7 +32,7 @@ setup(
         'Jinja2==2.10',
         'MarkupSafe==1.0',
         'pluggy==0.7.1',
-        'py==1.5.4',
+        'py==1.6.0',
         'six==1.11.0',
         'tox==3.2.1',
         'virtualenv==16.0.0',
