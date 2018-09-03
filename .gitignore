@@ -5,4 +5,5 @@
 *.egg-info
 .pytest_cache/
 .coverage
+.mypy_cache/
 test_readme.py
