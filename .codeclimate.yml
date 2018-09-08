@@ -14,6 +14,11 @@ plugins:
   pep8:
     enabled: true
     checks:
+      E501:
+        # black generates lines with more than 80 characters so disable the
+        # check. It would be better if we could instead specify the line length
+        # but didn't find how.
+        enabled: false
       E701:
         # Allow multiple statements on one line (colon) because that's how type
         # annotations are written. If Codeclimate ever updates their tool to
