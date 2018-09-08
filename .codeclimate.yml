@@ -13,6 +13,12 @@ plugins:
     enabled: true
   pep8:
     enabled: true
+    checks:
+      E701:
+        # Allow multiple statements on one line (colon) because that's how type
+        # annotations are written. If Codeclimate ever updates their tool to
+        # support that notation then we should re-enable that check.
+        enabled: false
   radon:
     enabled: true
     exclude_patterns:
