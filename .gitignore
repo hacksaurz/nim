@@ -6,4 +6,5 @@
 .pytest_cache/
 .coverage
 .hypothesis/
+.mypy_cache/
 test_readme.py
