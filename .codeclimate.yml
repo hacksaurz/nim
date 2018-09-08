@@ -11,6 +11,10 @@ plugins:
     enabled: true
   markdownlint:
     enabled: true
+    checks:
+      MD013:
+        # Our badges line is too long so disable the check
+        enabled: false
   pep8:
     enabled: true
     checks:
