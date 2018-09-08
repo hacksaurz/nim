@@ -28,6 +28,10 @@ plugins:
         # annotations are written. If Codeclimate ever updates their tool to
         # support that notation then we should re-enable that check.
         enabled: false
+      W503:
+        # The way black formats some list comprehensions doesn't break lines
+        # after a binary operator, so isabled the check.
+        enabled: false
   radon:
     enabled: true
     exclude_patterns:
