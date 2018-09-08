@@ -1,31 +1,24 @@
-from flask import (  # pylint: disable=F0401
-    jsonify,
-    render_template,
-    session,
-    request,
-)
+from flask import jsonify, render_template, session, request  # pylint: disable=F0401
 
 from nim import app
 from nim.exceptions import NimException
 
 
-@app.route('/')
+@app.route("/")
 def index():
-    return render_template(
-        'index.html',
-    )
+    return render_template("index.html")
 
 
-@app.route('/update', methods=['GET', 'POST'])
+@app.route("/update", methods=["GET", "POST"])
 def update_game_state():
-    state = session['state']
+    state = session["state"]
     bot_move = app.game.chaos.move(state)
     app.game.update(state, bot_move)
-    session['state'] = state
-    return jsonify({'state': state})
+    session["state"] = state
+    return jsonify({"state": state})
 
 
-@app.route('/new', methods=['GET', 'POST'])
+@app.route("/new", methods=["GET", "POST"])
 def new_game():
     """
     route for /new so user can start new game. Uses JSON from frontend
@@ -34,6 +27,6 @@ def new_game():
     try:
         state = app.game.new_game(**request.get_json())
     except NimException as e:
-        return jsonify({'error': e.args}), 400
-    session['state'] = state
-    return jsonify({'state': state})
+        return jsonify({"error": e.args}), 400
+    session["state"] = state
+    return jsonify({"state": state})
