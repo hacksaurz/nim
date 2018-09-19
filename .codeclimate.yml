@@ -11,13 +11,26 @@ plugins:
     enabled: true
   markdownlint:
     enabled: true
+    checks:
+      MD013:
+        # Our badges line is too long so disable the check
+        enabled: false
   pep8:
     enabled: true
     checks:
+      E501:
+        # black generates lines with more than 80 characters so disable the
+        # check. It would be better if we could instead specify the line length
+        # but didn't find how.
+        enabled: false
       E701:
         # Allow multiple statements on one line (colon) because that's how type
         # annotations are written. If Codeclimate ever updates their tool to
         # support that notation then we should re-enable that check.
+        enabled: false
+      W503:
+        # The way black formats some list comprehensions doesn't break lines
+        # after a binary operator, so isabled the check.
         enabled: false
   radon:
     enabled: true
