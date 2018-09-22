@@ -1,5 +1,5 @@
 click==6.7
-detox==0.13
+detox==0.15
 Flask==1.0.2
 itsdangerous==0.24
 Jinja2==2.10
