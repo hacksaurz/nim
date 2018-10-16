@@ -4,7 +4,7 @@ Flask==1.0.2
 itsdangerous==0.24
 Jinja2==2.10
 MarkupSafe==1.0
-pluggy==0.7.1
+pluggy==0.8.0
 pre-commit==1.11.2
 py==1.7.0
 six==1.11.0
