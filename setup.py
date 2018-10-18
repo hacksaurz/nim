@@ -28,7 +28,7 @@ setup(
     install_requires=[
         "click==7.0",
         "Flask==1.0.2",
-        "itsdangerous==0.24",
+        "itsdangerous==1.0.0",
         "Jinja2==2.10",
         "MarkupSafe==1.0",
         "pluggy==0.8.0",
