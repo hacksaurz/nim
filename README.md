@@ -11,7 +11,7 @@
 
 `pre-commit install`
 
-`detox`
+`tox`
 
 ### run
 `python run.py`
