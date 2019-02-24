@@ -30,7 +30,7 @@ setup(
         "Flask==1.0.2",
         "itsdangerous==1.1.0",
         "Jinja2==2.10",
-        "MarkupSafe==1.1.0",
+        "MarkupSafe==1.1.1",
         "pluggy==0.8.1",
         "py==1.8.0",
         "six==1.12.0",
