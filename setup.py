@@ -36,6 +36,6 @@ setup(
         "six==1.12.0",
         "tox==3.14.0",
         "virtualenv==16.7.5",
-        "Werkzeug==0.15.6",
+        "Werkzeug==0.16.0",
     ],
 )
