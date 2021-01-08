@@ -7,6 +7,6 @@ pluggy==0.13.1
 pre-commit==2.9.3
 py==1.10.0
 six==1.15.0
-tox==3.20.1
+tox==3.21.0
 virtualenv==20.2.2
 Werkzeug==1.0.1
