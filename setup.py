@@ -29,7 +29,7 @@ setup(
         "click==7.0",
         "Flask==1.1.1",
         "itsdangerous==1.1.0",
-        "Jinja2==2.11.1",
+        "Jinja2==2.11.3",
         "MarkupSafe==1.1.1",
         "pluggy==0.13.1",
         "py==1.8.1",
