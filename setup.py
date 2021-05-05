@@ -33,7 +33,7 @@ setup(
         "MarkupSafe==1.1.1",
         "pluggy==0.13.1",
         "py==1.10.0",
-        "six==1.15.0",
+        "six==1.16.0",
         "tox==3.23.0",
         "virtualenv==20.4.5",
         "Werkzeug==1.0.1",
