@@ -26,7 +26,7 @@ setup(
     packages=find_packages(exclude=["*.tests"]),
     classifiers=CLASSIFIERS,
     install_requires=[
-        "click==8.0.0",
+        "click==8.0.1",
         "Flask==2.0.0",
         "itsdangerous==2.0.1",
         "Jinja2==3.0.1",
