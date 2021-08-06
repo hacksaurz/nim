@@ -4,7 +4,7 @@ itsdangerous==2.0.1
 Jinja2==3.0.1
 MarkupSafe==2.0.1
 pluggy==0.13.1
-pre-commit==2.13.0
+pre-commit==2.14.0
 py==1.10.0
 six==1.16.0
 tox==3.24.1
